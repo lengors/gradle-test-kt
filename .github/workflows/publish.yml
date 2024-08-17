@@ -32,7 +32,7 @@ jobs:
                   java-version: 21
 
             - name: Setup gradle
-              uses: gradle/gradle-build-action@v3
+              uses: gradle/actions/setup-gradle@v4
 
             - name: Import GPG key
               id: import_gpg
@@ -45,7 +45,7 @@ jobs:
 
             - name: Publish package
               id: nyx
-              run: ./gradlew release
+              run: ./gradlew release --info
               env:
                   GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
                   GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}

@@ -1,5 +1,6 @@
 ---
 preset: extended
+initialVersion: 1.0.0
 
 commitMessageConventions:
   enabled:
@@ -16,7 +17,6 @@ releaseTypes:
     - mainline
     - maturity
     - integration
-    - local
   publicationServices:
     - github
   remoteRepositories:
@@ -62,6 +62,3 @@ releaseTypes:
       matchWorkspaceStatus: "CLEAN"
       publish: true
       publishPreRelease: "true"
-    local:
-      collapseVersions: true
-      collapsedVersionQualifier: local
