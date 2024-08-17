@@ -67,3 +67,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Exclude gradle-wrapper
+!gradle/wrapper/**
