@@ -1,0 +1,46 @@
+---
+name: Publish to GitHub Packages
+
+on:
+    workflow_dispatch:
+
+jobs:
+    publish:
+        environment: deployment
+        runs-on: ubuntu-latest
+        permissions:
+            packages: write
+        steps:
+            - name: Create GitHub app token
+              uses: actions/create-github-app-token@v1
+              id: app-token
+              with:
+                  app-id: ${{ secrets.GH_APP_ID }}
+                  private-key: ${{ secrets.GH_PRIVATE_KEY }}
+
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  token: ${{ steps.app-token.outputs.token }}
+                  persist-credentials: false
+
+            - name: Setup gradle
+              uses: gradle/gradle-build-action@v1
+
+            - name: Import GPG key
+              id: import_gpg
+              uses: crazy-max/ghaction-import-gpg@v6
+              with:
+                  gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+                  passphrase: ${{ secrets.GPG_PASSPHRASE }}
+                  git_user_signingkey: true
+                  git_commit_gpgsign: true
+
+            - name: Publish package
+              id: nyx
+              run: ./gradlew release
+              env:
+                  GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+                  ORG_GRADLE_PROJECT_signingGnupgPassphrase: ${{ secrets.GPG_PASSPHRASE }}

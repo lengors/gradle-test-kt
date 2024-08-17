@@ -1,0 +1,67 @@
+---
+preset: extended
+
+commitMessageConventions:
+  enabled:
+    - gitmoji
+
+git:
+  remotes:
+    origin:
+      user: "{{#environmentVariable}}GITHUB_TOKEN{{/environmentVariable}}"
+      password: "{{#environmentVariable}}GITHUB_TOKEN{{/environmentVariable}}"
+
+releaseTypes:
+  enabled:
+    - mainline
+    - maturity
+    - integration
+    - local
+  publicationServices:
+    - github
+  remoteRepositories:
+    - origin
+  items:
+    mainline:
+      collapseVersion: false
+      filterTags: "^({{configuration.releasePrefix}})?([0-9]\\d*)\\.([0-9]\\d*)\\.([0-9]\\d*)$"
+      gitCommit: true
+      gitCommitMessage: "🔖 Release version `${nextRelease.version}` [skip release]"
+      gitPush: true
+      gitPushForce: "true"
+      gitTag: true
+      gitTagForce: "true"
+      matchBranches: "^(master|main)$"
+      matchWorkspaceStatus: "CLEAN"
+      publish: true
+    maturity:
+      collapseVersion: true
+      collapsedVersionQualifier: "{{#sanitizeLower}}{{branch}}{{/sanitizeLower}}"
+      filterTags: "^({{configuration.releasePrefix}})?([0-9]\\d*)\\.([0-9]\\d*)\\.([0-9]\\d*)(-(alpha|beta)(\\.([0-9]\\d*))?)?$"
+      gitCommit: true
+      gitCommitMessage: "🔖 Release version `${nextRelease.version}` [skip release]"
+      gitPush: true
+      gitPushForce: "true"
+      gitTag: true
+      gitTagForce: "true"
+      matchBranches: "^(alpha|beta)$"
+      matchWorkspaceStatus: "CLEAN"
+      publish: true
+      publishPreRelease: "true"
+    integration:
+      collapseVersion: true
+      collapsedVersionQualifier: "{{#sanitizeLower}}{{branch}}{{/sanitizeLower}}"
+      filterTags: "({{configuration.releasePrefix}})?([0-9]\\d*)\\.([0-9]\\d*)\\.([0-9]\\d*)(-(dev|develop|development|integration|latest)(\\.([0-9]\\d*))?)$"
+      gitCommit: true
+      gitCommitMessage: "🔖 Release version `${nextRelease.version}` [skip release]"
+      gitPush: true
+      gitPushForce: "true"
+      gitTag: true
+      gitTagForce: "true"
+      matchBranches: "^(dev|develop|development|integration|latest)$"
+      matchWorkspaceStatus: "CLEAN"
+      publish: true
+      publishPreRelease: "true"
+    local:
+      collapseVersions: true
+      collapsedVersionQualifier: local
