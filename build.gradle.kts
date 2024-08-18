@@ -64,18 +64,6 @@ java {
 
 nyx {
     configurationFile = ".nyx.yml"
-
-    services {
-        register("github") {
-            type = "GITHUB"
-
-            options {
-                put("AUTHENTICATION_TOKEN", System.getenv("GITHUB_TOKEN"))
-                put("REPOSITORY_OWNER", repositoryOwner)
-                put("REPOSITORY_NAME", repositoryName)
-            }
-        }
-    }
 }
 
 tasks {
