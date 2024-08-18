@@ -1,6 +1,7 @@
 ---
 preset: extended
 initialVersion: 1.0.0
+verbosity: INFO
 
 commitMessageConventions:
   enabled:

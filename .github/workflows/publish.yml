@@ -45,7 +45,7 @@ jobs:
 
             - name: Publish package
               id: nyx
-              run: ./gradlew release --info
+              run: ./gradlew clean nyxPublish --info
               env:
                   GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
                   GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
